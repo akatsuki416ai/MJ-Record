@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>MJ 麻將記帳</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="app-nav">
+    <span class="app-title">MJ 麻將記帳</span>
+    <nav>
+      <button id="nav-setup">設定</button>
+      <button id="nav-round">記錄</button>
+      <button id="nav-chart">走勢圖</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="screen-setup" class="screen"></section>
+    <section id="screen-round" class="screen"></section>
+    <section id="screen-chart" class="screen"></section>
+    <section id="screen-summary" class="screen"></section>
+  </main>
+
+  <script src="vendor/chart.umd.min.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
