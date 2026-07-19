@@ -4,7 +4,7 @@
 import { el } from "./dom.js";
 import { deriveState, STAT_KEYS } from "./state.js";
 
-const STAT_LABELS = { zimo: "自摸", hujiao: "胡牌", beiZimo: "被自摸", fangChong: "放槍", liuju: "流局", meiShi: "沒事" };
+const STAT_LABELS = { zimo: "自摸", hujiao: "胡牌", beiZimo: "被摸", fangChong: "放槍", liuju: "流局", meiShi: "沒事" };
 
 function buildPayload(app) {
   const derived = deriveState(app.session);
@@ -79,6 +79,8 @@ export function renderSummary(container, app, actions) {
 
   const statusBox = el("div", { class: "upload-status", id: "upload-status" });
   container.appendChild(statusBox);
+  const clearStatusBox = el("div", { class: "upload-status", id: "clear-status" });
+  container.appendChild(clearStatusBox);
 
   const uploadBtn = el(
     "button",
@@ -106,40 +108,7 @@ export function renderSummary(container, app, actions) {
     },
     "上傳到 Google Sheet"
   );
-  container.appendChild(uploadBtn);
 
-  container.appendChild(
-    el(
-      "button",
-      {
-        class: "small",
-        onclick: async () => {
-          try {
-            await navigator.clipboard.writeText(JSON.stringify(payload, null, 2));
-            statusBox.textContent = "已複製 JSON 到剪貼簿";
-            statusBox.className = "upload-status ok";
-          } catch (e) {
-            statusBox.textContent = "複製失敗，請手動選取下方內容";
-            statusBox.className = "upload-status error";
-          }
-        },
-      },
-      "複製 JSON"
-    )
-  );
-
-  container.appendChild(el("pre", { class: "json-preview" }, JSON.stringify(payload, null, 2)));
-
-  container.appendChild(el("h3", {}, "危險區"));
-  container.appendChild(
-    el(
-      "p",
-      { class: "hint" },
-      "會清空「MJ牌局紀錄」分頁的所有歷史資料列（保留表頭，不動「我的紀錄」分頁），不可復原。新聚會、參與者不同時再用。"
-    )
-  );
-  const clearStatusBox = el("div", { class: "upload-status", id: "clear-status" });
-  container.appendChild(clearStatusBox);
   const clearBtn = el(
     "button",
     {
@@ -171,20 +140,19 @@ export function renderSummary(container, app, actions) {
     },
     "清除 MJ 牌局紀錄"
   );
-  container.appendChild(clearBtn);
 
-  container.appendChild(
-    el(
-      "button",
-      {
-        class: "danger",
-        onclick: () => {
-          if (confirm("開新牌局嗎？（這場的紀錄仍會保留，可隨時回來查看/重新上傳）")) {
-            actions.startNewSessionFromSummary();
-          }
-        },
+  const newSessionBtn = el(
+    "button",
+    {
+      class: "big",
+      onclick: () => {
+        if (confirm("開新牌局嗎？（這場的紀錄仍會保留，可隨時回來查看/重新上傳）")) {
+          actions.startNewSessionFromSummary();
+        }
       },
-      "開新牌局"
-    )
+    },
+    "開新牌局"
   );
+
+  container.appendChild(el("div", { class: "summary-actions" }, [uploadBtn, clearBtn, newSessionBtn]));
 }

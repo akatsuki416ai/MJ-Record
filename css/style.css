@@ -375,16 +375,15 @@ button.big {
   font-size: 0.9rem;
 }
 
-.json-preview {
-  background: #0f1119;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 0.8rem;
-  font-size: 0.75rem;
-  overflow-x: auto;
-  white-space: pre-wrap;
-  word-break: break-all;
-  margin: 0.8rem 0;
+.summary-actions {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.6rem;
+}
+
+.summary-actions button {
+  flex: 1;
+  min-width: 0;
 }
 
 #pnl-chart {
