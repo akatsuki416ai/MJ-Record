@@ -144,7 +144,7 @@ export function renderSummary(container, app, actions) {
   const newSessionBtn = el(
     "button",
     {
-      class: "big",
+      class: "success big",
       onclick: () => {
         if (confirm("開新牌局嗎？（這場的紀錄仍會保留，可隨時回來查看/重新上傳）")) {
           actions.startNewSessionFromSummary();
