@@ -120,6 +120,13 @@ button.success {
   font-weight: 700;
 }
 
+button.upload {
+  background: linear-gradient(135deg, #1e3a8a, #1d4ed8);
+  border: none;
+  color: #ffffff;
+  font-weight: 700;
+}
+
 button.small {
   padding: 0.35rem 0.7rem;
   font-size: 0.85rem;

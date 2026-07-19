@@ -85,7 +85,7 @@ export function renderSummary(container, app, actions) {
   const uploadBtn = el(
     "button",
     {
-      class: "primary big",
+      class: "upload big",
       onclick: async () => {
         uploadBtn.disabled = true;
         statusBox.textContent = "上傳中…";
