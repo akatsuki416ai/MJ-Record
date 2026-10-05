@@ -65,7 +65,7 @@ README.md                  -- 使用者視角的操作說明（部署方式、�
 
 無。這個專案的實作都是直接用 Read/Edit/Write/Bash/PowerShell 工具做的，沒有呼叫任何 Claude Code Skill。架構討論的部分有用到 Plan Mode（`EnterPlanMode`/`ExitPlanMode`），設計選擇的分岔點有用 `AskUserQuestion` 跟使用者確認（例如座位方位、放槍者選取方式、台數輸入形式這些）——這兩個是 agent 工具，不是「skill」。
 
-## 測試方式（這台 Windows 機器沒有 Node.js，所以是這樣測的）
+## 測試方式（當時這台機器沒有 Node.js，所以是這樣測的；2026-10-05 起已裝 Node.js，這套手法照樣可用）
 
 - **金額邏輯**：早期用 Python 鏡像腳本重新實作一次 `computeRoundResult` 的算法，跟預期手算結果比對。
 - **UI/互動**：`python -m http.server <port>` 起本機靜態伺服器，搭配 headless Chrome（`chrome.exe --headless=new --dump-dom` 或 `--screenshot`）+ 臨時 `_e2e_*.html` 測試頁（用 iframe 內嵌真正的 app，透過合成 DOM 事件模擬點擊/輸入）跑完整流程。截圖時記得加 `--run-all-compositor-stages-before-draw`，不然可能截到還沒畫完的畫面（曾經因為這樣抓到一個「DOM 對但視覺全空白」的真 bug，是 CSS `display:none` 沒被正確覆蓋掉）。
@@ -92,5 +92,5 @@ README.md                  -- 使用者視角的操作說明（部署方式、�
 2. `git log --oneline` 看功能演進順序跟每次改動的動機（commit message 有寫「為什麼」）。
 3. 記帳邏輯有疑慮，先看 `js/scoring.js` 的 `computeRoundResult()`（純函式，最容易單獨驗證），不要一開始就跳進 UI 層。
 4. UI 互動有疑慮，先看 `js/ui-round.js` 開頭的 `draft` 狀態機註解，理解 `idle/menu/awaiting-discarder/tai-sheet` 這四個 mode 再動手改。
-5. 這台機器沒有 Node.js：驗證改動要用「已知的坑」段落提到的 headless Chrome + 本機 http server 手法，测完記得清暫存檔（`_e2e_*` 開頭的檔案已經在 `.gitignore` 裡，不會不小心 commit 進去）。
+5. 驗證改動用上面「測試方式」段落的 headless Chrome + 本機 http server 手法，测完記得清暫存檔（`_e2e_*` 開頭的檔案已經在 `.gitignore` 裡，不會不小心 commit 進去）。
 6. 改完要讓網站更新，記得 `git add` + `git commit` + `git push origin main`（GitHub Pages 會自動重新部署）。
