@@ -1,3 +1,19 @@
+---
+id: mj-mahjong
+parent: root
+name: MJ 麻將記帳
+one_liner: 台灣麻將 16 張計台的即時記帳網頁，牌局結束可結算上傳 Google Sheet
+grade: 工具
+stage: 營運
+next_action: 無待辦。等使用者回報公司網路是否擋 github.io，再決定要不要搬 Cloudflare Pages
+waiting_on: null
+blocked_since: null
+backup: git（GitHub public repo）
+repo: github.com/akatsuki416ai/MJ-Record（public）
+deploy: https://akatsuki416ai.github.io/MJ-Record/
+acceptance: {"at": "2026-08-30T17:40:00+08:00", "stage": "營運", "reason": "2026-08-30 補簽。①功能測試靠 log 記載的既有驗收（純前端計分工具，無排程、無後端），**今天沒有重跑 UI 測試**。②log 與 frontmatter 為最新。③守望者 8/30 07:00 巡檢 https://akatsuki416ai.github.io/MJ-Record/ HTTP 200。④⑤已由機器查（repo 為 public，歷史檔名與現存追蹤檔內容皆無秘密特徵）。⑥工具級不適用。"}
+---
+
 # MJ 專案 Log（2026-07-19 收尾整理）
 
 給「之後回來修 bug / 加功能」的自己看的筆記。看這份之前先假設你已經完全忘記這個專案。
