@@ -1,0 +1,50 @@
+name: JavaScript syntax check
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Check JavaScript syntax as ES modules
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          import { readdirSync, readFileSync } from 'node:fs';
+          import { join } from 'node:path';
+          import { spawnSync } from 'node:child_process';
+          
+          let checked = 0;
+          let failed = false;
+          function checkDirectory(directory) {
+            for (const entry of readdirSync(directory, { withFileTypes: true })) {
+              const file = join(directory, entry.name);
+              if (entry.isDirectory()) {
+                checkDirectory(file);
+              } else if (entry.isFile() && entry.name.endsWith('.js')) {
+                checked++;
+                const result = spawnSync(process.execPath, ['--input-type=module', '--check'], {
+                  input: readFileSync(file, 'utf8'),
+                  encoding: 'utf8',
+                });
+                if (result.error || result.status !== 0) {
+                  failed = true;
+                  console.error('FAIL ' + file);
+                  console.error(result.error?.message || result.stderr || 'Syntax check failed');
+                } else {
+                  console.log('PASS ' + file);
+                }
+              }
+            }
+          }
+          checkDirectory('js');
+          console.log('Checked ' + checked + ' JavaScript files as ES modules.');
+          process.exitCode = failed ? 1 : 0;
+          NODE
